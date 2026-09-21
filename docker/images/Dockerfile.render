@@ -36,6 +36,11 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
+# filess.io (free tier) does not support TLS, but the MariaDB 11.x client
+# requires it by default ("ERROR 2026: SSL is required"). Turn it off for
+# every mariadb call made by wait-for-db.sh and the entrypoint.
+RUN printf '[client]\nskip-ssl\n' > /etc/my.cnf
+
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
