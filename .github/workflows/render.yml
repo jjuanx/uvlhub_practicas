@@ -2,17 +2,17 @@ name: Deploy to Render
 
 on:
     push:
-      tags:
-        - 'v*'
-        
+      tags: ['v*']
+
     pull_request:
       types: [closed]
       branches: [main]
 
 jobs:
   test:
-    run-on: ubuntu-24.04
-    servicies:
+    if: github.event_name == 'push' || github.event.pull_request.merged == true
+    runs-on: ubuntu-24.04
+    services:
       mariadb:
         image: mariadb:12.0.2
         env:
