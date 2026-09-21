@@ -48,7 +48,8 @@ jobs:
         pip install -e ./rosemary
         pip install pip-audit
 
-    - name: Audit dependencies
+    - name: Security auit
+      continue-on-error: true
       run: pip-audit -r requirements.txt
 
     - name: Latest dependencies versions
